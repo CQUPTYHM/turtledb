@@ -1,4 +1,4 @@
-use file;
+use crate::store::file;
 
 type bytes = Vec<u8>;
 trait ToBytes {
@@ -42,8 +42,9 @@ pub struct PageManager {}
 
 impl PageManager {
     fn create_Page(file_name: &str) {
-        
-        
+        let file_manager = file::FileManager::new();
+        file_manager.
+
     }
 }
 

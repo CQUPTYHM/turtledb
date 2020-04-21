@@ -4,14 +4,19 @@ use std::io;
 
 const PAGE_SIZE: i64 = 4096;
 
-pub struct FileOperetor {
+pub struct FileManager {
     file: Option<File>,
     pages_sum: i64,
 }
 
 
-impl FileOperetor {
-
+impl FileManager {
+    pub fn new() -> Self{
+        FileManager {
+            file: None,
+            pages_sum: 0,
+        }
+    }
     pub fn open_file(&mut self, file_path: &str) -> Result<(), io::Error>{
         self.file = Some(File::open(file_path)?);
         Ok(())
