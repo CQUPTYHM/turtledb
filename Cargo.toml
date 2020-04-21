@@ -1,0 +1,14 @@
+[package]
+name = "turtledb"
+version = "0.1.0"
+authors = ["yaohuiming <huiming678@163.com>"]
+edition = "2018"
+
+[workspace]
+members = [".", "parser"]
+
+
+[dependencies]
+regex = "1"
+
+
