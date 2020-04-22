@@ -1,7 +1,9 @@
 use std::io::prelude::*;
 use std::fs::File;
+use std::fs::OpenOptions;
 use std::io;
-
+use crate::store::page::DirectoryPage;
+use crate::store::page::ToBytes;
 const PAGE_SIZE: i64 = 4096;
 
 pub struct FileManager {
@@ -39,6 +41,18 @@ impl FileManager {
 
     pub fn write_page(&mut self, page_id: i64, data: &[u8]) -> io::Result<()>{
         self.file.as_mut().unwrap().write_all(data)?;
+        Ok(())
+    }
+
+    pub fn create_dir_file(dir_file_name: &str) -> io::Result<()>{
+        let mut dir_file = File::create(dir_file_name)?;
+        Ok(())
+    }
+
+    pub fn create_dir_page(dir_file_name: &str, dir_page: DirectoryPage) -> io::Result<()> {
+        let mut dir_file = OpenOptions::new().write(true).append(true).open(dir_file_name)?;
+        let buf = &dir_page.to_Bytes()[..];
+        dir_file.write(buf)?;
         Ok(())
     }
 }
