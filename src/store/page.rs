@@ -82,9 +82,8 @@ impl TablePage {
 
     pub fn insert_tuple(&mut self, tuple_data: Vec<u8>) {
         let tuple_size = tuple_data.len();
-        let iter = tuple_data.clone().into_iter().enumerate();
         //slot[i] == 1 代表对应位置存了tuple
-        for (i, ele) in iter {
+        for (i, ele) in tuple_data.clone().into_iter().enumerate() {
             if ele == 0 {
                 let temp: &mut [u8] = &mut self.data[tuple_size * i..tuple_size * (i + 1)];
                 temp.clone_from_slice(&tuple_data[..]);
@@ -94,7 +93,14 @@ impl TablePage {
 
     pub fn delete_tuple(&mut self, tuple_id: usize) {
         //不需要真的清空对应位置的tuple数据，只需要把对应位置slot置0
-        self.slot[tuple_id] = 0;
+        self.slot[tuple_id] = 0u8;
+    }
+
+    pub fn update_tuple(&mut self, tuple_id: usize) -> Result<(), &str>{
+        if self.slot[tuple_id] == 0 {
+            return Err("tuple不存在，无法更新");
+        }
+        Ok(())
     }
 }
 
